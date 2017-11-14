@@ -4,17 +4,20 @@ import Helmet from 'react-helmet';
 
 import styles from './style.less';
 
+import Gallery from '../GalleryApp';
+import Login from '../LoginApp';
+
 export interface IProps {
 }
 
 const App: React.SFC<IProps> = (): React.ReactElement<IProps> => (
 	<div className={styles.wrapper}>
 		<Helmet>
-			<title>Frontend Boilerplate</title>
+			<title>FE homework</title>
 		</Helmet>
 
-		<Route exact path="/" component={() => <h1>Index page</h1>} />
-		<Route exact path="/test" component={() => <h1>Test page</h1>} />
+		<Route exact path="/" component={Login} />
+		<Route exact path="/gallery" component={Gallery} />
 	</div>
 );
 

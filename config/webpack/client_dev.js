@@ -74,6 +74,7 @@ export default new WebpackConfig().extend({
 			},
 			{
 				test: /\.less$/,
+				exclude: /node_modules/g,
 				loaders: [
 					'style-loader',
 					{
@@ -84,6 +85,22 @@ export default new WebpackConfig().extend({
 							importLoaders: 1,
 							sourceMap: true,
 							modules: true,
+						},
+					},
+					'postcss-loader',
+					'less-loader',
+				],
+			},
+			{
+				test: /\.less$/,
+				include: /node_modules/g,
+				loaders: [
+					'style-loader',
+					{
+						loader: 'css-loader',
+						query: {
+							minimize: true,
+							importLoaders: 1,
 						},
 					},
 					'postcss-loader',

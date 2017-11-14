@@ -9,6 +9,7 @@ import createNewStore from 'lib/redux';
 
 import App from 'src/common/App';
 import 'normalize.css';
+import 'elemental/less/elemental.less';
 
 const store = createNewStore({middleware: [], reducers: []});
 

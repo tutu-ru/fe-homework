@@ -68,6 +68,7 @@ export default new WebpackConfig().extend({
 			},
 			{
 				test: /\.less$/,
+				exclude: /node_modules/g,
 				use: extractCSS.extract({
 					fallback: 'style-loader',
 					use: [
@@ -96,7 +97,23 @@ export default new WebpackConfig().extend({
 						}
 					]
 				}),
-			}
+			},
+			{
+				test: /\.less$/,
+				include: /node_modules/g,
+				loaders: [
+					'style-loader',
+					{
+						loader: 'css-loader',
+						query: {
+							minimize: true,
+							importLoaders: 1,
+						},
+					},
+					'postcss-loader',
+					'less-loader',
+				],
+			},
 		],
 	},
 	plugins: [

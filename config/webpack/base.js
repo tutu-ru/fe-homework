@@ -46,7 +46,7 @@ export default new WebpackConfig().merge({
 	},
 	plugins: [
 		new ProgressBarPlugin({
-			format: ` ${chalk.cyan.bold('Frontend Boilerplate')} building [:bar] :percent' (:elapsed sec)`,
+			format: ` ${chalk.cyan.bold('FE homework')} building [:bar] :percent' (:elapsed sec)`,
 		}),
 		new webpack.LoaderOptionsPlugin({
 			minimize: true,
