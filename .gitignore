@@ -1,0 +1,7 @@
+dist/
+node_modules/
+.awcache-browser/
+.awcache-server/
+config/keys/*.pem
+config/keys/*.crt
+config/keys/*.key
