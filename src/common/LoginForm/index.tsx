@@ -4,21 +4,44 @@ import { Alert, Form, FormField, FormInput, Button } from 'elemental';
 import styles from './style.less';
 
 export interface IProps {  }
-export interface IState { email: string, password: string }
+export interface IState { email: string, password: string, validated: number }
 
 class LoginForm extends React.Component<IProps, IState> {
 
 	state = {
 		email: '',
-		password: ''
+		password: '',
+		validated: 0
 	}
 
 	private onSubmit = () => {
-		console.log(this.state)
+		(async () => {
+			console.log(this.state)
+			if(this.state.email && this.state.password) {
+				let response = await fetch('/api/validate', {
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						email: this.state.email,
+						password: this.state.password
+					})
+				})
+				console.log(response)
+				if(response.status == 200) {
+					this.setState({validated: 2})
+				}
+				else {
+					this.setState({validated: 1})
+				}
+			}
+		})()
 	}
 	
 	private validateEmail = (e) => {
-		let reg = /[\w\d\-]+\@+[\w\d\-\.]+\.[\w]{2,}/g
+		const reg = /[\w\d\-]+\@+[\w\d\-\.]+\.[\w]{2,}/g
 			if(reg.test(e.target.value)) {
 			this.setState({email: e.target.value})
 			e.target.className = `${styles.success} FormInput`
@@ -59,9 +82,21 @@ class LoginForm extends React.Component<IProps, IState> {
 		}
 	}
 
+	private checkRes = () => {
+		if(this.state.validated === 2){
+			return (
+			<Alert type="success">Login success</Alert> )
+		}
+		else if (this.state.validated === 1){
+			return (
+				<Alert type="danger">Login error</Alert> ) 
+		}
+	}
+
 	public render() {
 		return (
 			<div>
+				{ this.checkRes() }
 				<Form>
 					<FormField label="Email address" htmlFor="basic-form-input-email">
 						<FormInput autoFocus type="email" placeholder="Enter email" name="basic-form-input-email" onChange={this.validateEmail} className={styles.invalid} />

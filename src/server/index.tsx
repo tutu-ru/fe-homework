@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
 
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 import { compose } from 'compose-middleware';
 import * as morgan from 'morgan';
 type Middleware = (req: express.Request, res: express.Response, next?: () => express.RequestHandler) => void;
@@ -85,10 +86,12 @@ const pageTemplateHandler: RequestHandler = async (req, res) => {
 			}}
 			scripts={scripts}
 			css={manifest['browser.css']}
-			vendorCss={manifest['vendor.css']}
+			vendorCss={Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the clientmanifest['vendor.css']}
 		/>
 	)}`);
 }
+
+app.use(bodyParser.json())
 
 app.use(compose([
 	errorHandler,
@@ -97,6 +100,17 @@ app.use(compose([
 ]));
 
 app.use('/', express.static('dist/public'));
+
+app.post('/api/validate', (req, res) => {
+	console.log(req.body)
+	const regular = /[\w\d\-]+\@+[\w\d\-\.]+\.[\w]{2,}/g
+	if(regular.test(req.body.email) && req.body.password.length >= 6) {
+		res.status(200)
+	}
+	else {
+		res.status(400)
+	}
+})
 
 app.all('*', pageTemplateHandler);
 
