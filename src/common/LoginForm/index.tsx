@@ -91,6 +91,9 @@ class LoginForm extends React.Component<IProps, IState> {
 			return (
 				<Alert type="danger">Login error</Alert> ) 
 		}
+		else {
+			return
+		}
 	}
 
 	public render() {
